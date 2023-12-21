@@ -14,12 +14,12 @@ timezone: Europe/Berlin
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Malili's Jekyll Blog # the main title
+title: D14znet's Blog # the main title
 
-tagline: Main collection point for technical documentation.  # it will display as the sub-title
+tagline: My main collection point for How-Tos, documentation on my personal projects and other interesting IT topics.  # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
-  A blog to document my personal projects and to gather my notes about networking, server infrastructure and all thins IT.
+  A blog to document my personal projects and to gather my notes about networking, server infrastructure and all things IT.
 
 # Fill in the protocol & hostname for your site.
 # e.g. 'https://username.github.io', note that it does not end with a '/'.
