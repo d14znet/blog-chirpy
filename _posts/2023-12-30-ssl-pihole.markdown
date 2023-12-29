@@ -49,7 +49,7 @@ Once we've generated the keys, we need to tell Lighttpd to load SSL, where to fi
 
 For this, create a file like ```20-pihole-ssl.conf``` and paste the following:
 
-```20-pihole-ssl.conf
+```console
 #Load OpenSSL
 server.modules += ( "mod_openssl" )
 
@@ -99,7 +99,7 @@ Basically I thought it would be possible to let PiHole start Lighttpd and genera
 * Make sure the directories and their files have the appropriate permissions. If needed, set them up correctly with `chown` / `chmod`.
 * Take your container down. On the docker-compose file, create a new bind mount point between the new directory and the container's filesystem:
 
-```docker-compose.yml
+```console
 #[...]
 services:
   pihole:
