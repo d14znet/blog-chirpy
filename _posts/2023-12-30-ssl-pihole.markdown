@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Updating PiHole with Docker-Compose"
+title:  "Configuring self-signed SSL on PiHole's Web Interface"
 date:   2023-12-30 00:29:43 +0100
 categories: how-to pihole docker
 tags: ["raspberry pi", "how to", "docker", "pihole"]
@@ -87,7 +87,7 @@ So far the process is quite straightforward. The real deal was combining this wi
 The docker-compose file I use already bind-mounts a couple of directories, so that all of their contents are backed up and automatically restored whenever I need to restart the PiHole. I thought this might work for Lighttpd's SSL configuration as  well, but I encountered some problems on the way:
 
   * A bind mount of `/etc/lighttpd` to the Docker host didn't work. Refer to [Mount into a non-empty directory on the container](https://docs.docker.com/storage/bind-mounts/#mount-into-a-non-empty-directory-on-the-container) for further explanation. Using my previous docker-compose file, lighttpd will be automatically started on the PiHole container, enabling the server configuration:
-    * Bind mounting an empty `etc-lighttpd` to PiHole's `/etc/lighttpd` would render the web interface useless. The source's empty contents would propagate to the container, erasing all configuration files under conf-available and conf-enabled - which are needed by lighttpd to service the web interface.
+    * Bind mounting an empty `etc-lighttpd` to PiHole's `/etc/lighttpd` **would render the web interface useless**. The source's empty contents would propagate to the container, erasing all configuration files under conf-available and conf-enabled - which are needed by lighttpd to service the web interface.
 	* Bind mounting empty `etc-lighttpd` and child directories `conf-available` and `conf-enabled` didn't work either. It seems that using the `volumes` directive on Compose without any further configuration creates a bind mount with read/write permissions by default. This didn't work as I expected for the approach I had in mind.
   * At this point I had spent much more time than I really had and decided to go for a workaround, which is described below. 
   
@@ -99,14 +99,13 @@ Basically I thought it would be possible to let PiHole start Lighttpd and genera
 * Make sure the directories and their files have the appropriate permissions. If needed, set them up correctly with `chown` / `chmod`.
 * Take your container down. On the docker-compose file, create a new bind mount point between the new directory and the container's filesystem:
 
-```console
+```yaml
 #[...]
 services:
   pihole:
     #[...]
     volumes:
-	  - './your/local/path:/path/in/container'
-    
+      - './your/local/path:/path/in/container'
 ```
 
 ### Soft-link the configuration and restart Lighttpd service
