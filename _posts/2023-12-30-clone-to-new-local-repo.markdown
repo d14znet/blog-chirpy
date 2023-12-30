@@ -38,7 +38,7 @@ cd .\localrepo
 
 * On GitHub, open your repository and go to `Code > Clone > SSH`. **Copy the snippet into your clipboard**:
 
-![Copy the code snippet to clone your repository via SSH](assets/img/ssh-clone-repo.png)
+![Copy the code snippet to clone your repository via SSH](/assets/img/ssh-clone-repo.png)
 
 * On your local terminal, navigate to the local repository and run `git clone git@github.com:your-github-user/your-remote-repo.git`.
 * GitHub will check if the provided public key is authorized to use the remote repository. The contents of your remote repository will start propagating into your local repository.
@@ -52,7 +52,7 @@ To make sure everything went right and synchronization works as expected, we can
 * Create a commit: `git commit -m "Test commit"`
 * If you didn't set up a user name and e-mail yet, Git won't commit the changes. The output on terminal is pretty self-explanatory on what you need to do - simply follow the instructions and commit the changes again:
 
-![Follow the instructions on the terminal output to set a user name and e-mail for the repository](assets/img/setup-git-config.png)
+![Follow the instructions on the terminal output to set a user name and e-mail for the repository](/assets/img/setup-git-config.png)
 
 * Finally, push the changes to the remote repository with `git push`.
 
