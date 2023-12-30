@@ -52,7 +52,7 @@ To make sure everything went right and synchronization works as expected, we can
 * Create a commit: `git commit -m "Test commit"`
 * If you didn't set up a user name and e-mail yet, Git won't commit the changes. The output on terminal is pretty self-explanatory on what you need to do - simply follow the instructions and commit the changes again:
 
-![Follow the instructions on the terminal output to set a user name and e-mail for the repository](assets/img/setup-git-config)
+![Follow the instructions on the terminal output to set a user name and e-mail for the repository](assets/img/setup-git-config.png)
 
 * Finally, push the changes to the remote repository with `git push`.
 
