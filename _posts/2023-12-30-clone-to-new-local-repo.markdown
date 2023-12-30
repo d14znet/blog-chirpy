@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Initializing new local repo and cloning from remote source"
-date:   2023-12-19 14:29:43 +0100
+date:   2023-12-30 14:29:43 +0100
 categories: how-to github
 tags: ["how to", "github"]
 ---
