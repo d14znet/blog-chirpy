@@ -50,5 +50,9 @@ To make sure everything went right and synchronization works as expected, we can
 * [Also optional] On your local repository, open a terminal and run `git pull`. As we didn't change anything so far, the output will tell us that *everything is already up-to-date*.
 * Create a new file or modify an existing one. Save your changes and add the file to Git: `git add /path/to/file`.
 * Create a commit: `git commit -m "Test commit"`
+* If you didn't set up a user name and e-mail yet, Git won't commit the changes. The output on terminal is pretty self-explanatory on what you need to do - simply follow the instructions and commit the changes again:
+
+![Follow the instructions on the terminal output to set a user name and e-mail for the repository](assets/img/setup-git-config)
+
 * Finally, push the changes to the remote repository with `git push`.
 
