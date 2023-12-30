@@ -16,7 +16,7 @@ timezone: Europe/Berlin
 
 title: D14znet's Blog # the main title
 
-tagline: My main collection point for How-Tos, documentation on my personal projects and other interesting IT topics.  # it will display as the sub-title
+tagline: How-Tos, documentation on my personal projects and other interesting IT topics.  # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   A blog to document my personal projects and to gather my notes about networking, server infrastructure and all things IT.
