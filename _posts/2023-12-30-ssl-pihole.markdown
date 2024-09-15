@@ -3,7 +3,7 @@ layout: post
 title:  "Configuring self-signed SSL on PiHole's Web Interface"
 date:   2023-12-30 00:29:43 +0100
 categories: how-to pihole docker
-tags: ["raspberry pi", "how to", "docker", "pihole"]
+tags: ["raspberry pi", "how to", "docker", "pihole", "certificates"]
 ---
 
 # Configuring self-signed SSL on PiHole's Web Interface
