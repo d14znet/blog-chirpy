@@ -2,7 +2,7 @@
 layout: post
 title:  "Setting up own Certificate Authority (CA)"
 date:   2024-09-16 17:25:00 +0200
-categories: how-to pihole certificates
+categories: how-to pihole
 tags: ["raspberry pi", "how to", "pihole", "certificates"]
 ---
 
