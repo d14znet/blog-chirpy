@@ -6,7 +6,7 @@ order: 4
 
 Hello World!
 
-I'm *almost* a newbie IT sysadmin interested in **Unix systems, networking, server infrastructure deployment & automatization** and DIY projects.
+I'm a newbie IT sysadmin interested in **Unix systems, networking, server infrastructure deployment & automatization** and DIY projects.
 
 In this blog I want to **document my personal projects** - and I might as well upload the **theory content** I gathered during the past years about networking, server infrastructure and other IT things (whenever I find the time to tidy them up nicely).
 
