@@ -1,0 +1,71 @@
+---
+layout: post
+title:  "2FA for SSH"
+date:   2024-09-29 18:55:00 +0200
+categories: how-to ssh hardening
+tags: ["how to", "ssh", "hardening"]
+---
+
+# 2-Factor Authentication for SSH
+
+This was one of the first projects I had on my bucket list. Something tells me I'll end up regretting this when I'm scrolling through my authentication codes just to SSH to one of my systems. But at this point we all know that increasing security somehow always implies ~~giving up laziness~~ losing a little comfort. 
+
+
+## Disclaimer & Credits
+
+> César Marín's [Tutorial](https://derechodelared.com/segundo-factor-de-autenticacion-ssh/) has all the information I followed to get this done. Overall the blog has pretty cool articles on Cybersecurity
+> Guoan Xiao's [Tutorial](https://www.linuxbabe.com/debian/ssh-two-factor-authentication-debian) also provides detailed instructions with plenty of screenshots.
+
+
+## Install modules and configure SSH service
+
+* Install Google Authenticator PAM Library: ```sudo apt install libpam-google-authenticator``` and QREncode (in case it doesn't get installed automatically with the first command) ```sudo apt install libqrencode4```
+* PAM stands for **Pluggable Authentication Module**. With this new module, we're basically adding a new layer to our SSH authentication, so that every logging attempt will be asked for a one-time code (the second factor). Gaining access to the system will only be possible if both factors (either password or public key and code) are correct. Now that the module is installed, we need to configure it.
+* Open ```/etc/pam.d/sshd``` and add the line ```auth required pam_google_authenticator.so```.
+* Open ```/etc/ssh/sshd_config``` and be sure to enable PAM and to add the following lines on your config:
+
+```console
+
+UsePAM yes
+ChallengeResponseAuthentication yes
+
+[...]
+
+AuthenticationMethods publickey,keyboard-interactive  # add this one to the end of the file
+
+```
+
+* Configure the TOTP for your user. For this, run ```google-authenticator``` and follow the instructions on the terminal. Open any TOTP generator app of your like and scan the QR code - if your terminal cannot resize the QR code appropriately, you can also enter the provided secret key manually. Your TOTP app will generate a numeric code - enter it when prompted to set up 2FA with your session. Also, don't forget to **save the emergency codes!**.
+* Restart SSH so that the changes take effect: ```sudo systemctl restart ssh``` (do not close your SSH session, so that you don't get locked out of the system in case any configuration change went wrong).
+* At this point, our SSH host will ask for a TOTP-code on every connection attempt. If you test it, you will notice that **password authentication is enabled** - we will need to do a last change to the PAM configuration file to disable this. Open ```/etc/pam.d/sshd``` and comment out the line for Standard Un*x authentication:
+
+```console
+
+# PAM configuration for the Secure Shell service
+
+# Standard Un*x authentication.
+#@include common-auth
+
+# Google Authentication 2FA
+auth required pam_google_authenticator.so
+
+[...]
+```
+
+## Disabling 2FA
+
+To disable 2FA, we basically need to undo the previous steps:
+
+* Comment out the line ```auth required pam_google_authenticator.so``` on the file ```/etc/pam.d/sshd```
+* Remove the keyboard-interactive authentication method out of the file ```/etc/ssh/sshd_config```
+* Restart the SSH service
+
+
+## SSH'ing to the host after changes
+
+From now on, every login attempt (in my case, using a SSH key) will prompt us for a verification code:
+
+![Terminal promp asking for TOTP verification code](/assets/img/ssh-2fa-prompt.png)
+
+> It might look like your SSH-agent is not using the public key on the first place for authentication. **It actually is!** to test this, I opened a CMD on Windows to make sure I wasn't using any SSH agent with pre-loaded keys. Somehow, I always ended at the verification code prompt. After some intensive googling, I tried to ssh to the system using the **verbose** option ```-v```. This way you can review every step taken while the connection is being stablished. Since I started the CMD from a directory where my SSH keys where easy to find, the SSH client was able to browse through the keys and find the appropriate one.
+{: .prompt-warning }
