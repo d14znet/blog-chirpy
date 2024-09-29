@@ -14,6 +14,7 @@ This was one of the first projects I had on my bucket list. Something tells me I
 ## Disclaimer & Credits
 
 > César Marín's [Tutorial](https://derechodelared.com/segundo-factor-de-autenticacion-ssh/) has all the information I followed to get this done. Overall the blog has pretty cool articles on Cybersecurity
+>
 > Guoan Xiao's [Tutorial](https://www.linuxbabe.com/debian/ssh-two-factor-authentication-debian) also provides detailed instructions with plenty of screenshots.
 
 
