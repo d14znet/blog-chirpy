@@ -130,4 +130,6 @@ Simply download the latest .json and import it to the Grafana Web by clicking on
 
 You can either drag'n'drop the file or copy-paste its contents. Select the appropriate data source for this Dashboard (this is the Prometheus data source we just configured) and click on **Import**.
 
-*Voilà*! In matter of seconds we have a super-detailed dashboard containing all metrics from the hosts we previously configured. **We won't see there the metrics from cAdvisor**, but that's content for a second or maybe a third post...
+*Voilà*! In matter of seconds we have a super-detailed dashboard containing all metrics from the hosts we previously configured. **We won't see there the metrics from cAdvisor**, for this we will create a separate Dashboard repeating exactly the same steps, but uploading the [cAdvisor Exporter Dashboard](https://grafana.com/grafana/dashboards/14282-cadvisor-exporter/) file instead.
+
+Now that our dashboards are up and running, in upcoming posts we will delve into topics such as hardening and customization.
