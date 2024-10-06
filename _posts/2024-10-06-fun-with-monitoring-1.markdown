@@ -8,7 +8,7 @@ tags: ["how to", "monitoring", "docker", "prometheus", "grafana"]
 
 # Introduction
 
-The final proyect for my vocational training consisted on gathering custom metrics from various SAP-systems and exposing those to a Prometheus server. Ultimately, the recorded metrics were gathered on a Grafana dashboard, which provided with an accurate portrait of the current state of a whole SAP landscape.
+The final project for my vocational training consisted on gathering custom metrics from various SAP-systems and exposing those to a Prometheus server. Ultimately, the recorded metrics were gathered on a Grafana dashboard, which provided with an accurate portrait of the current state of a whole SAP landscape.
 
 I tweaked Node Exporter a little bit, so that it would provide me exclusively with the metrics I wanted to collect. These were gathered using Bash scripts, and the whole toolbox (Bash scripts + Node Exporter) was nicely provisioned using Ansible.
 
@@ -17,15 +17,15 @@ Maybe one day I'll be so proficient that I can write my own Node Exporter with G
 As I'll be testing different scenarios and scopes, I decided to write short posts which will be a part of a series.
 
 
-## 1st Milestone: Deploying Prometheus, Node Exporter & Grafana on my lab
+# 1st Milestone: Deploying Prometheus, Node Exporter & Grafana on my lab
 
-Let's get started with something simple and straighforward - installing Prometheus and Grafana on my lab, and Node Exporter on those hosts I would like to keep an eye on. Those comprise:
+Let's get started with something simple and straightforward - installing Prometheus and Grafana on my lab, and Node Exporter on those hosts I would like to keep an eye on. Those comprise:
 
 * A PC running Linux
 * A Raspberry Pi
 * Two containers running on the Pi
 
-The first two will get an out-of-the-box Node Exporter, as I'm only interested in collecting metrics concerning hardware performance. For the containers, I'd get a **container specific one** which should give me insights about its usage and performance (a more application-oriented view).
+The first two will get an out-of-the-box Node Exporter, as I'm only interested in collecting metrics concerning hardware and some basic software performance. For the containers, I'd get a **container specific one** which should give me insights about its usage and performance (a more application-oriented view).
 
 On later projects, I'd like to start monitoring my router as well.
 
@@ -57,9 +57,9 @@ After restarting Prometheus (```systemctl restart prometheus```), the web interf
 
 ## Installing and Configuring cAdvisor with Docker Compose
 
-cAdvisor is an ad-hoc exporter for containers. The Prometheus' Docs include a [tutorial to set it up on a multi-container environment](https://prometheus.io/docs/guides/cadvisor/#monitoring-docker-container-metrics-using-cadvisor).
+cAdvisor is an **ad-hoc exporter for containers**. The Prometheus' Docs include a [tutorial to set it up on a multi-container environment](https://prometheus.io/docs/guides/cadvisor/#monitoring-docker-container-metrics-using-cadvisor).
 
-For my containers, I decided to download the image and provision it using docker-compose, as I did with my other containerized services. To accomplish this, I followed these steps:
+For my containers, I decided to download the image and **provision it using docker-compose**, as I did with my other containerized services. To accomplish this, I followed these steps:
 
 * Download the cAdvisor image: ```sudo docker pull google/cadvisor:latest``` (you might want to use ```zcube/cadvisor``` instead if you plan to run cAdvisor on an ARM architecture)
 * Create a docker-compose file and paste the following lines: 
@@ -85,7 +85,7 @@ cadvisor:
 
 * Take up the container with ```sudo docker-compose up```. You can take a look at the collected metrics on ```http://<IP-or-hostname>:9092/containers```
 
-> Originally I added the lines to my Nextcloud's docker-compose file. To my surprise, cAdvisor started gathering metrics about other containers. I supposed this was related to the network configuration, as all containers were on the same Docker network. To test this, I simply ran cAdvisor using a separate (dedicated) docker-compose file - the result remained the same. If you still want to attach cAdvisor to the docker-compose file of another service, simply refer to the [Guide on Prometheus' Docs](https://prometheus.io/docs/guides/cadvisor/) and adjust accordingly to your use case.
+> Originally I added the lines to my Nextcloud's docker-compose file. To my surprise, **cAdvisor started gathering metrics about other containers**. I supposed this was related to the network configuration, as all containers were on the same Docker network. To test this, I simply ran cAdvisor using a separate (dedicated) docker-compose file - the result remained the same. If you still want to attach cAdvisor to the docker-compose file of another service, simply refer to the [Guide on Prometheus' Docs](https://prometheus.io/docs/guides/cadvisor/) and adjust accordingly to your use case.
 {: .prompt-info }
 
 * Lastly, we need to add cAdvisor's "contact information" into our Prometheus' config. As we did before, we append the following lines to ```/etc/prometheus/prometheus.yml```:
@@ -98,6 +98,8 @@ cadvisor:
 
 ```
 * After restarting Prometheus, it will start gathering the metrics provided by cAdvisor:
+
+![Prometheus' Target List include now cAdvisor](/assets/img/cadvisor-added.png)
 
 
 ## Installing and Setting Up Grafana
