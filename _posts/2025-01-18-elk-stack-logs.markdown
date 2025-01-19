@@ -6,7 +6,7 @@ categories: how to monitoring raspberry pi
 tags: ["how to", "monitoring", "raspberry pi", "elk"]
 ---
 
-As I mentioned on my previous post, I've been spending much time lately looking for errors and information on my Raspberry Pi's logs. **Not that it bothers me!** - a considerable part of my work consists of reading logs, after all. I was only wondering if there was a way to collect the logs in a way that makes them easier to navigate, filter out for relevant info, and so on.
+As I mentioned on my [previous post](/_posts/2025-01-11-troubleshooting-rpi-network-problems), I've been spending much time lately looking for errors and information on my Raspberry Pi's logs. **Not that it bothers me!** - a considerable part of my work consists of reading logs, after all. I was only wondering if there was a way to collect the logs in a way that makes them easier to navigate, filter out for relevant info, and so on.
 
 I already had contact with Prometheus and Grafana and knew about the existence of Loki - which basically collects your logs in the same way as Node Exporter collects metrics for Prometheus. But for this experiment I wanted to give a try to the **ELK-stack** (**E**lasticsearch, **L**ogstash and **K**ibana). During the final project for my vocational training, I discarded the ELK stack precisely because I wasn't interested on collecting log information. This time it's the other way around and I'm looking forward to see if it meets my expectatives and as always, to learn something new along the way!
 
