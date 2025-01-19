@@ -59,3 +59,55 @@ First we need to properly configure Kibana and **connect it to our Elasticsearch
 
 - Check Kibana's configuration file on ```/etc/kibana/kibana.yml``` and change according to your needs - you might want to use an alternative port number or another binding address. Remember to reload Kibana if you change anything on this file.
 - Connect Kibana to Elasticsearch by generating an enrollment token: ```sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana```. Open Kibana on your browser and paste the token - it will ask for a verification code that you can generate using ```sudo /usr/share/kibana/bin/kibana-verification-code```. 
+- Check your instance status opening ```http://<ip>/5061:status```
+- Prepare Logstash to work with Filebeat - for this, we will need an **input** and an **output file**. On the input file, we will tell Logstash where to get the log files from (Filebeat, which will be running on port 5044). On the output, we indicate that the data should be sent to our Elasticsearch instance (listening on port 9200). 
+- Create an input file (```/etc/logstash/conf.d/02-beats-input.conf```) and paste the following:
+
+```console
+input {
+  beats {
+    port => 5044
+  }
+} 
+```
+- Do the same for the output file (```/etc/logstash/conf.d/30-elasticsearch-output.conf```), with the following content:
+
+```console
+output {
+  if [@metadata][pipeline] {
+	elasticsearch {
+  	hosts => ["localhost:9200"]
+  	manage_template => false
+  	index => "%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY.MM.dd}"
+  	pipeline => "%{[@metadata][pipeline]}"
+	}
+  } else {
+	elasticsearch {
+  	hosts => ["localhost:9200"]
+  	manage_template => false
+  	index => "%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY.MM.dd}"
+	}
+  }
+}
+```
+- Test the configuration files with ```sudo -u logstash /usr/share/logstash/bin/logstash --path.settings /etc/logstash -t```
+- Now install Filebeat - same as before, either using apt or downloading and installing the deb-package from the [official site](https://www.elastic.co/downloads/beats/filebeat).
+- Set up the configuration file ```/etc/filebeat/filebeat.yml``` so that we will be using Logstash as output for now - comment out the lines for Elasticsearch and save the file.
+- Configure the inputs that we want to feed to Filebeat - for this, scroll through the configuration file ```/etc/filebeat/filebeat.yml``` and configure an **input for journald** by adding the following lines:
+
+```console
+filebeat.inputs:
+- type: journald
+  id: everything
+```
+
+> You can fine-tune this input by adding regexp and filters. Refer to the [official documentation about journald input](https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-input-journald.html) for more information.
+{: .prompt-info }
+
+- Start up feeding the information pipelines with ```sudo filebeat setup --pipelines```
+- Return fo Filebeat's configuration file and revert the changes we previously did - now we want to comment out Logstash as output and use Elasticsearch instead. Save the file and run the following commands to start indexing the information for Elasticsearch, and then feed it to Kibana to set up dashboards accordingly: ```sudo filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["localhost:9200"]'``` , ```sudo filebeat setup -E output.logstash.enabled=false -E output.elasticsearch.hosts=['localhost:9200'] -E setup.kibana.host=localhost:5601```
+
+> Remember that the access to Elasticsearch is **password-protected** and uses a **certificate**. You might want to generate a key to use it on the configuration file, so that the connection to Elasticsearch doesn't fail. Also, be sure to pass the certificate path so that it doesn't get rated as unstrusted while we're setting up this connection.
+{: .prompt-info }
+
+- The last commands will take a little while. Once everything is correctly set up, we can -again- reload systemd daemons, enable and start our new Filebeat service.
