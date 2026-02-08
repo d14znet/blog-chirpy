@@ -29,7 +29,7 @@ Just writing down all the steps in case I have to set this up again... which hon
   * Only public key authentication
   * Comment out the last 2 lines of this config file
 
-![image](/blog-chirpy/assets/img/sshd_windows.png)
+![image](/assets/img/sshd_windows.png)
 
 * Restart OpenSSH-Server and OpenSSH Authentication Agent after the changes
 
