@@ -24,7 +24,7 @@ Although I'm super happy with my PiHole setup as it is now, I've wondering if I 
 * Click on **Create CT** and choose your hardware specs according to [PiHole's Prerequisites](https://docs.pi-hole.net/main/prerequisites/).
 * Given that I'm using a special network configuration for this task, these are my network parameters:
 
-![image](/assets/img/lxc-pihole-network.png)
+![Network parameters of PiHole LXC Container](/assets/img/lxc-pihole-network.png)
 
 > IPv4 is the address that we have established for destination NAT/PAT. Gateway is the address of the Bridge Interface where the container is connected to (```vmbr1``` in my case).
 {: .prompt-info }

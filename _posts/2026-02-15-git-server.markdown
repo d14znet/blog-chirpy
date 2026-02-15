@@ -37,7 +37,7 @@ sudo EXTERNAL_URL="http://<server-fqdn or server-ip>" apt install gitlab-ce
 * Don't forget to change root's initial password using [GitLab's Instructions](https://docs.gitlab.com/security/reset_user_password/#reset-the-root-password)
 * Create a Group, create a Project and assign it to the group.
 
-![image](assets/img/gitlab-create-project.png)
+![Creating a project on GitLab Web UI](assets/img/gitlab-create-project.png)
 
 * Create a couple of users, add them to the group with the **Developer** role and set SSH keys so that key can commit and push their content to the project folder.
 
@@ -57,9 +57,9 @@ git push origin feature-test
 
 * Once logged in into GitLab Web UI, you will be prompted about a **merge request**. Change to your root user to approve the merge
 
-![image](assets/img/gitlab-merge-request.png)
+![Merge Request on GitLab Web UI](assets/img/gitlab-merge-request.png)
 
-![image](assets/img/gitlab-approve-merge.png)
+![Approving Merge Request on GitLab Web UI](assets/img/gitlab-approve-merge.png)
 
 > Our test user has a Developer Role, which prevents them from writing changes directly to the main branch. If you wish to skip this workflow entirely, just change the user role to **Maintainer**, or change the Developer role to allow those users to push changes to main.
 {: .prompt-info }
