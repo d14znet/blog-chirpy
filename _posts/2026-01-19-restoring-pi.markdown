@@ -35,7 +35,7 @@ That's why I decided to reflash the microSD card and tried to recover as much in
 2. If we start docker-compose as we usually do, Nextcloud will initialize before the database can read all recovered data. Instead, we have to start the database first with ```sudo docker-compose up -d mariadb```. Then we check if the database is up and running and accepting incoming connections: ```sudo docker logs -f mariadb```. 
 3. Connect to the database and check if Nextcloud's latest session tables have been recovered:
 
-```
+```console
 sudo docker exec -it mysql -it mariadb mysql -u'db_user' -p'password' db_name #(adjust your connection parameters)
 SHOW TABLES;
 ```
@@ -43,7 +43,7 @@ SHOW TABLES;
 4. Once we made sure that the database is accepting incoming connections and contains data from the last session, we repeat the steps for all other services; first Redis ```sudo docker-compose up -d redis``` (check status with ```sudo docker logs -f redis```); and then Nextcloud ```sudo docker-compose up -d nextcloud```. Same as before, we check on Docker's logs that Nextcloud is up and running and Apache is ready for incoming connections.
 5. It's possible that we need to install an update once we access Nextcloud's URL. In this case, we can install it within a bash session in the container:
 
-```
+```console
 sudo docker exec -it nextcloud bash
 ./occ upgrade
 

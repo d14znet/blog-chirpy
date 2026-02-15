@@ -16,7 +16,7 @@ This is a digest on all the steps I took to install Proxmox in my new workstatio
 * Prepare executable USB and adjust BIOS boot sequence of the host machine
 * Install using GUI, but change the boot command before - simply delete everything after ```quiet/splash``` and replace with:
 
-```
+```console
 nomodeset nouveau.blacklist=1 modprobe.blacklist=nouveau i915.modeset=0 intel_iommu=off
 
 ```
@@ -57,7 +57,7 @@ nomodeset nouveau.blacklist=1 modprobe.blacklist=nouveau i915.modeset=0 intel_io
 * Once Windows 11 is installed, we can use RDP to connect to a Linux machine. In this case, the destination of this RDP connection is a Debian with KDE Plasma.
 * On the destination machine, install XRDP, allow autostart and check that it's started
 
-```
+```console
 sudo apt install xrdp
 sudo systemctl is-enabled xrdp
 sudo systemctl status xrdp
@@ -66,14 +66,14 @@ sudo systemctl status xrdp
 * Create certificate and save in ```/etc/xrdp/certs``` (create directory if it doesn't exist yet), change ownership: ```sudo chown -R xrdp:xrdp /etc/xrdp/certs```
 * Adjust permissions for the certificate and the private key
 
-```
+```console
 sudo chmod 0644 /etc/xrdp/certs/certificate.pem
 sudo chmod 0600 /etc/xrdp/certs/privatekey.pem
 ```
 
 * Adjust parameters in ```/etc/xrdp/xrdp.ini```:
 
-```
+```console
 security_layer=tls
 certificate=/path/to/certificate.pem
 key_file=/path/to/privatekey.pem
@@ -82,7 +82,7 @@ ssl_protocols=TLSv1.2, TLSv1.3
 
 * Create file ***~/.xsession*** with the following contents:
 
-```
+```bash
 !/bin/sh
 export XDG_SESSION_TYPE=x11
 export KDE_FULL_SESSION=true
@@ -94,7 +94,7 @@ exec dbus-run-session startplasma-x11
 * Make .xsession executable: ```sudo chmod +x ~/.xsession```
 * Backup file ***/etc/xrdp/startwm.sh*** and change the contents of the original file as follows:
 
-```
+```bash
 #!/bin/sh
 if [ -r ~/.xsession ]; then
   exec ~/.xsession

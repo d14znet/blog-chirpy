@@ -14,16 +14,20 @@ I'm trying to keep up as fast as possible with all the knowledge I feel I've mis
 
 * I adapted my Debian 13 cloud-init image to 4 GB RAM and 30 GB disk space. Everything else (users, SSH-keys, etc) stayed the same.
 * Power on the machine, install updates and all necessary packages
-```
+
+```console
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y tzdata perl
 sudo apt install -y postfix
 ```
+
 * Download GitLab installation script and start installation providing either the hostname or the IP of the server where Git should run. 
-```
+
+```console
 curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
 sudo EXTERNAL_URL="http://<server-fqdn or server-ip>" apt install gitlab-ce
 ```
+
 > Installation might take up to 10 minutes.
 {: .prompt-info }
 
@@ -42,7 +46,7 @@ sudo EXTERNAL_URL="http://<server-fqdn or server-ip>" apt install gitlab-ce
 * From a remote machine, try cloning the repo you just set up: ```git clone git@<server-IP>:<group-name>/<project-name>.git```. It should clone the structure of the project you just set up, including the automatically generated ```README.md```.
 * Also from the remote machine, create a branch, add some changes and try committing / pushing them:
 
-```
+```console
 cd gitlab/<project-name>
 # add folders, files, etc
 git checkout -b feature-test
@@ -65,14 +69,14 @@ git push origin feature-test
 * Issue SSL certificates
 * Create folder structure on GitLab server and save certificates there
 
-```
+```console
 sudo mkdir -p /etc/gitlab/ssl
 sudo chmod 755 /etc/gitlab/ssl
 ```
 
 * Adjust contents of ```/etc/gitlab/gitlab.rb``` and reconfigure instance to apply changes with ```sudo gitlab-ctl reconfigure```
 
-```
+```ruby
 external_url 'https://<server-fqdn>'
 [...]
 letsencrypt['enable'] = false

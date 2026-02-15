@@ -31,11 +31,12 @@ Although I'm super happy with my PiHole setup as it is now, I've wondering if I 
 
 * Start up container, install updates and download ```curl``` and PiHole.
 
-```
+```console
 apt update && sudo apt upgrade -y
 apt install curl
 curl -sSL https://install.pi-hole.net | bash
 ```
+
 * Click through installer and set up your options. Once installed, change login password and set up a couple of local DNS records.
 
 ## Test Setup
