@@ -15,4 +15,4 @@ A workaround to patch your systems while an official kernel update coming from y
 * Check if it can be dynamically loaded: ```cat /proc/sys/kernel/modules_disabled```
 * Stop from loading it dynamically: ```echo "install algif_aead /bin/false" > /etc/modprobe.d/disable-algif-aead.conf```
 * Remove from memory if loaded: ```rmmod algif_aead 2>/dev/null```
-
+* **Don't forget to reboot!**
